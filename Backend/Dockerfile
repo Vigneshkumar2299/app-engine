@@ -1,2 +1,9 @@
 FROM nginx:alpine
 COPY . /usr/share/nginx/html
+RUN virtualenv -p python3.7 /env
+ENV VIRTUAL_ENV /env
+ENV PATH /env/bin:$PATH
+ADD requirements.txt /app/requirements.txt
+RUN pip install -r /app/requirements.txt
+ADD . /app
+CMD python -m quiz.console.worker
